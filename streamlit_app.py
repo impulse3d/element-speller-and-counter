@@ -41,41 +41,41 @@ def spell_word(word):
 # Streamlit UI
 st.title("Impulse 3d Prints: Periodic Table Speller  🧪😃")
 
-# Callback function to dynamically update output
-def update_output():
-    spelled_word, element_count = spell_word(st.session_state.word_input)
+# Input field (initial value set to "Genius")
+st.text_input("Enter the word or phrase you want to spell with the periodic table. Then copy the text into your personalization on our Etsy page. Be sure to select the right number of tiles for your order!", key="word_input", value="Genius")
+
+# Button to trigger the spelling process
+if st.button("Spell with ELEMENTS!"):
+    # Retrieve and process the input word
+    word = st.session_state.word_input
+    spelled_word, element_count = spell_word(word)
+
+    # Store the result in session state
     st.session_state.spelled_word = spelled_word
     st.session_state.element_count = element_count
 
-# Input field with callback
-st.text_input("Enter the word or phrase you want to spell with the periodic table. Then copy the text into your personalization on our etsy page. Be sure to select the right number of tiles for your order!", key="word_input", value="Genius", on_change=update_output)
+    # Display the result
+    st.write(f"Spelled with elements from Periodic Table: {spelled_word}")
+    st.write(f"Number of element tiles used: {element_count}")
 
-# Display output dynamically
-if "spelled_word" in st.session_state:
-    st.write(f"Spelled with elements from Periodic Table: {st.session_state.spelled_word}")
-    st.write(f"Number of element tiles used: {st.session_state.element_count}")
-
-# Updated Copy to Clipboard button with combined result text and element count
-if st.button("Copy to Clipboard"):
-    # Use session state directly for combined text
-    combined_text = f" {st.session_state.spelled_word} -- {st.session_state.element_count} Tiles needed :)"
+    # Updated Copy to Clipboard button with combined result text and element count
+    combined_text = f"{spelled_word} --> {element_count} Tiles needed :)"
     st.code(combined_text, language="")
 
     # JavaScript to copy combined text to clipboard
     st.markdown(f"""
     <script>
-        const text = `{combined_text}`;
+        const text = `{combined_text}`; 
         navigator.clipboard.writeText(text).then(() => {{
             alert("Copied to clipboard!");
         }});
     </script>
     """, unsafe_allow_html=True)
 
-st.markdown("## Ready to Order?")
-st.write("Copy your customized design details and [visit our shop](https://impulse3dprints.etsy.com) to place your order!")
-
 # Link to Linktree
 st.markdown("---")
+st.markdown("## Ready to Order?")
+st.write("Copy your customized design details and [visit our shop](https://impulse3dprints.etsy.com) to place your order!")
 st.markdown("## Find us here!")
 st.markdown("🔗 [Visit my Linktree](https://linktr.ee/impulse3d)")
-st.markdown("🔗 [Back to our etsy shop](https://impulse3dprints.etsy.com)")
+st.markdown("🔗 [Back to our Etsy shop](https://impulse3dprints.etsy.com)")
